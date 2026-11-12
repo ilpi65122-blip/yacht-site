@@ -15,10 +15,9 @@ First version **built, signed off, and merged to `main`** (2026-11-12). Verified
 - Enquire button carries the yacht name into the contact form; form shows a placeholder confirmation.
 - Images are placeholder navy blocks (no real photos yet).
 
-**CRM:** built on branch `feature/crm-build` from [`BRIEF-CRM.md`](BRIEF-CRM.md) and
-[`BUILD-CRM.md`](BUILD-CRM.md). Private admin dashboard in `crm/` — 8 placeholder enquiries, list +
-detail, status (New/Contacted/Closed) + notes persisted via browser localStorage, navy/white, no
-backend. Pending owner test + sign-off, then merge to `main`.
+**CRM: built, signed off, and merged to `main`** (2026-11-12). Built from [`BRIEF-CRM.md`](BRIEF-CRM.md)
+and [`BUILD-CRM.md`](BUILD-CRM.md). Private admin dashboard in `crm/` — 8 placeholder enquiries, list +
+detail, status (New/Contacted/Closed) + notes persisted via browser localStorage, navy/white, no backend.
 
 ## Reference links to wire when the CRM is built (agreed 2026-11-12)
 Following the work through the pipeline, these cross-links let each next reader continue with context:
