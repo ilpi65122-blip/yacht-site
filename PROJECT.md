@@ -16,8 +16,14 @@ First version **built, signed off, and merged to `main`** (2026-11-12). Verified
 - Images are placeholder navy blocks (no real photos yet).
 
 **CRM: built, signed off, and merged to `main`** (2026-11-12). Built from [`BRIEF-CRM.md`](BRIEF-CRM.md)
-and [`BUILD-CRM.md`](BUILD-CRM.md). Private admin dashboard in `crm/` — 8 placeholder enquiries, list +
-detail, status (New/Contacted/Closed) + notes persisted via browser localStorage, navy/white, no backend.
+and [`BUILD-CRM.md`](BUILD-CRM.md). Private admin dashboard in `crm/` — list + detail, status
+(New/Contacted/Closed) + notes, navy/white.
+
+**Site ↔ CRM wired for real** (on branch `feature/site-crm-wiring`, `DECISIONS.md` #6). Added a small
+dependency-free Node backend (`server.js`) + JSON storage (`data/enquiries.json`). The contact form
+POSTs enquiries to the server; the CRM reads/updates them from the server (status/notes now shared,
+not per-browser). **Run with `npm start`, open http://localhost:3000** (no longer double-click).
+Pending owner test + sign-off, then merge.
 
 ## Reference links to wire when the CRM is built (agreed 2026-11-12)
 Following the work through the pipeline, these cross-links let each next reader continue with context:
@@ -49,8 +55,10 @@ live here.
 ## Test findings
 - Site, verified 2026-11-12 in a browser: home, listings+filter, single yacht, enquire flow all work.
   Only console message is a harmless favicon 404.
-- CRM, verified 2026-11-12 against [`BUILD-CRM.md`](BUILD-CRM.md) "Done when": lists 8 enquiries,
-  detail opens, status + notes edit and **persist across reload** (localStorage), navy/white. No errors.
+- CRM, verified 2026-11-12 against [`BUILD-CRM.md`](BUILD-CRM.md) "Done when": lists enquiries,
+  detail opens, status + notes edit and persist, navy/white. No errors.
+- Site↔CRM wiring, verified 2026-11-12 on the Node server: API GET/POST work; an enquiry submitted
+  through the site's Contact form appeared live in the CRM (8 → 10 after test submissions).
 
 ## Template reuse — tested, it worked (2026-11-12)
 `templates/brief-template.md` was reused to write `BRIEF-CRM.md`. The test: did it prevent the
@@ -60,9 +68,17 @@ constraints** and **How it connects** sections forced both to be answered in the
 template corrections were needed this round.
 
 ## Known for later (not now)
-- `app.js` builds cards via `innerHTML` with developer-controlled placeholder data (safe today).
-  When real, user-entered content arrives, switch to safe DOM methods / sanitize to avoid XSS.
-- Real yacht data + photos, and a working contact backend, are future work.
+- Real, user-entered enquiries now flow in. The **CRM renders them with `textContent`** (safe from
+  XSS). The site's `app.js` still uses `innerHTML` but only over developer-controlled yacht data.
+- **No auth on the CRM or the API** — anyone who can reach the server can read/modify enquiries
+  (names, emails, messages). Mitigation in place: the server **binds to `127.0.0.1` (localhost only)**,
+  so it is not reachable from the LAN. **Before deploying or binding to any other host, add a login**
+  (e.g. a session cookie, or a `CRM_TOKEN` checked on every `/api/*` and `/crm/*` request). This is
+  the main open risk — flagged by an automated security review 2026-11-12.
+- Hardened 2026-11-12 (security review): request bodies capped at 64 KB; stored fields length-capped;
+  static server only serves .html/.css/.js and blocks dotfiles, `server.js`, `data/`, and `.md` docs;
+  `../` traversal blocked. Still no rate-limiting/spam protection — add before public exposure.
+- Real yacht data + photos, and deployment/hosting, are future work.
 
 ## How to run
 No install. Open `index.html` in a browser (or serve the folder statically and visit `/index.html`).

@@ -65,3 +65,18 @@ reads automatically at startup, pointing to the detailed files (`BRIEF`, `PROJEC
 
 **Closes:** the gap flagged in Decision 4 — a fresh session now self-loads the agreement + knows to
 read the brief, instead of relying on someone opening the right file.
+
+## Decision 6 — Add a backend to wire the site to the CRM (2026-11-12)
+
+**Decided:** connect the site and CRM for real with a small **Node backend** (`server.js`, no external
+dependencies) and **JSON-file storage** (`data/enquiries.json`). The contact form POSTs enquiries to
+the server; the CRM reads and updates them from the server (status/notes now shared, not per-browser).
+
+**Reverses:** the "no backend" constraint in the website and CRM briefs — intentionally, as the
+deferred integration step. The signed-off briefs stay as the historical record; this decision supersedes
+their "no backend" note for the combined app.
+
+**Trade-off accepted:** the app is no longer double-click; it runs with `npm start` / `node server.js`
+and is used at http://localhost:3000.
+
+**Still later:** hosting/deploy, login for the CRM, a real database if volume grows.

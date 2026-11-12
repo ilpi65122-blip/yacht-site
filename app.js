@@ -101,13 +101,29 @@ function setupContact() {
     const msg = document.getElementById("message");
     if (msg) msg.value = `I'm interested in ${yacht}. Please send me more details.`;
   }
-  form.addEventListener("submit", function (e) {
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
     const note = document.getElementById("form-note");
     note.style.display = "block";
-    note.textContent =
-      "Thank you — your enquiry has been noted. (Placeholder: this form isn't connected yet.)";
-    form.reset();
+    note.textContent = "Sending…";
+    const payload = {
+      yacht: yacht || "General enquiry",
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      message: document.getElementById("message").value,
+    };
+    try {
+      const res = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("bad response");
+      note.textContent = "Thank you — your enquiry has been sent. We'll be in touch.";
+      form.reset();
+    } catch (err) {
+      note.textContent = "Sorry, something went wrong sending your enquiry. Please try again.";
+    }
   });
 }
 

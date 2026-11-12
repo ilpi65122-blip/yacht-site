@@ -1,0 +1,8 @@
+{
+  "name": "yacht-site",
+  "version": "0.2.0",
+  "description": "Yacht listings site + private CRM, wired together via a small Node backend.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
