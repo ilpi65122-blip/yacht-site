@@ -21,6 +21,8 @@ filters or search.>
 <Does this read from or write to another component (e.g. the site's enquiries)? Name the data that
 passes between them and in which direction. — This section exists because the first handoff flagged
 "previous component -> this one" as the missing link; don't leave it blank.>
+<**Link** to the brief of the component you connect to (e.g. `BRIEF.md`) so the reader can see the
+exact fields/data that pass between them.>
 
 ## Technical constraints
 <Stack and limits: framework or plain HTML/CSS/JS? Does the "no backend" rule still hold, or does

@@ -17,6 +17,8 @@ stores data, say what persistence to use (decided in the brief's Technical const
 ## How it connects
 <Any data read from / written to another component. Mirror the brief's "How it connects" section so
 the builder wires it, not guesses.>
+<**Link** the specific files whose fields you must mirror (e.g. the site's `contact.html` and
+`data.js`) so the builder matches them exactly instead of inventing field names.>
 
 ## Done when
 <A checklist of concrete, checkable conditions. The owner's test-by-running checks these.>

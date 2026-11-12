@@ -20,6 +20,15 @@ writes and signs off a **CRM brief** (`SIGNOFF.md`: the owner writes the brief, 
 brief must settle: what the CRM is and who uses it, what it stores, whether enquiries from the site
 feed into it, and whether the "no backend" rule still holds for a tool that stores records.
 
+## Reference links to wire when the CRM is built (agreed 2026-11-12)
+Following the work through the pipeline, these cross-links let each next reader continue with context:
+1. `BRIEF-CRM.md` "How it connects" → `BRIEF.md` (the site's enquiry fields).
+2. `BUILD-CRM.md` "Read first" → `BRIEF-CRM.md` (the spec).
+3. `BUILD-CRM.md` "How it connects" → `contact.html` / `data.js` (the exact fields to mirror).
+4. `PROJECT.md` test findings → `BUILD-CRM.md` (what "done" meant).
+5. `PROJECT.md` pending / next-up → `BRIEF-CRM.md` (the governing brief).
+Links 1-3 are now encoded in `templates/`; links 4-5 get added to this file as the CRM is tested.
+
 ## This repo and records
 `yacht-site` (this repo) is the home for the yacht project's code and records. `SYSTEMS.md` describes
 the owner's *overall* course setup and names `likeahuman-playground` (the harness-documentation repo);
