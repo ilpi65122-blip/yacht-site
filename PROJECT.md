@@ -15,7 +15,16 @@ First version **built, signed off, and merged to `main`** (2026-11-12). Verified
 - Enquire button carries the yacht name into the contact form; form shows a placeholder confirmation.
 - Images are placeholder navy blocks (no real photos yet).
 
-Pending: owner to test and sign off, then merge to `main`.
+**Next up:** the **CRM** component (see `BRIEF.md` out-of-scope). It can't start until the owner
+writes and signs off a **CRM brief** (`SIGNOFF.md`: the owner writes the brief, not Claude). The
+brief must settle: what the CRM is and who uses it, what it stores, whether enquiries from the site
+feed into it, and whether the "no backend" rule still holds for a tool that stores records.
+
+## This repo and records
+`yacht-site` (this repo) is the home for the yacht project's code and records. `SYSTEMS.md` describes
+the owner's *overall* course setup and names `likeahuman-playground` (the harness-documentation repo);
+that reference is about the course, not this project — the live code and records for the yacht site
+live here.
 
 ## Key decisions
 - Plain HTML/CSS/JS, no framework, no backend (BRIEF out-of-scope list).
