@@ -70,8 +70,11 @@ template corrections were needed this round.
 ## Known for later (not now)
 - Real, user-entered enquiries now flow in. The **CRM renders them with `textContent`** (safe from
   XSS). The site's `app.js` still uses `innerHTML` but only over developer-controlled yacht data.
-- **No auth on the CRM or the API** — anyone who can reach the server can read/modify enquiries. Add
-  login before this is exposed beyond localhost. (This is now the main open risk.)
+- **No auth on the CRM or the API** — anyone who can reach the server can read/modify enquiries
+  (names, emails, messages). Mitigation in place: the server **binds to `127.0.0.1` (localhost only)**,
+  so it is not reachable from the LAN. **Before deploying or binding to any other host, add a login**
+  (e.g. a session cookie, or a `CRM_TOKEN` checked on every `/api/*` and `/crm/*` request). This is
+  the main open risk — flagged by an automated security review 2026-11-12.
 - The server does only minimal validation (required fields). No rate-limiting/spam protection yet.
 - Real yacht data + photos, and deployment/hosting, are future work.
 

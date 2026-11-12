@@ -111,4 +111,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 ensureData();
-server.listen(PORT, () => console.log("Yacht site + CRM running on http://localhost:" + PORT));
+// Bind to localhost only. The CRM API has no authentication yet (see PROJECT.md "Known for later"),
+// so the server must NOT be exposed on the network. Add a login before changing this host or deploying.
+const HOST = "127.0.0.1";
+server.listen(PORT, HOST, () => console.log("Yacht site + CRM running on http://localhost:" + PORT));
