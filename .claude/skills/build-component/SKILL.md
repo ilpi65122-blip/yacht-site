@@ -17,6 +17,10 @@ This is a skeleton — refine the steps as the project teaches you more.
 
 If any is missing, stop and ask for it — do not invent a brief or guess the spec.
 
+**Naming:** `<name>` is a short kebab-case slug matching the brief (e.g. `crm`, `site-crm-wiring`).
+Artifacts: `BRIEF-<name>.md`, `BUILD-<name>.md` at the repo root; component code in a `<name>/` folder
+(the main site lives at the repo root — the one exception).
+
 ## Steps
 1. Read `BRIEF-<name>.md`, `BUILD-<name>.md`, `CLAUDE.md`, and any component it connects to.
 2. Create a branch: `feature/<name>` (GIT-WORKFLOW: big/new work goes on a branch, not `main`).
@@ -24,8 +28,11 @@ If any is missing, stop and ask for it — do not invent a brief or guess the sp
    Use placeholder data where the brief says so.
 4. **Verify in a real browser** — drive the actual flows (serve the folder, click through, check the
    brief's "Done when" list). Do not assume; observe. Capture what you checked.
-5. Update `PROJECT.md` (current state + test findings; link findings to `BUILD-<name>.md`).
-6. Commit on the branch and push it. Leave `main` untouched.
+5. **Security pass (conditional):** if this build adds/changes a backend or handles user-entered input,
+   do a quick security check before presenting (no secrets served, input size-capped, no auth bypass,
+   localhost-bound if unauthenticated). Record residual risks in `PROJECT.md`. Skip if N/A (static-only).
+6. Update `PROJECT.md` (current state + test findings; link findings to `BUILD-<name>.md`).
+7. Commit on the branch and push it. Leave `main` untouched.
 
 ## Intended result
 A working component built to the brief, on `feature/<name>`, verified in a browser, with `PROJECT.md`
@@ -33,9 +40,24 @@ updated and the branch pushed — presented to the owner with what was tested.
 
 ## Stopping point
 - **Stop at the owner's sign-off gate.** Present the result and the verification; do NOT auto-merge.
-- Only after the owner says "sign off": merge `feature/<name>` into `main` (`--no-ff`), push, delete the
-  branch, and update `PROJECT.md` to "shipped".
+- Only after the owner says "sign off":
+  - If `main` has moved since the branch started, **merge `main` into the branch and re-verify** first
+    (never merge something stale/conflicting up).
+  - Merge `feature/<name>` into `main` (`--no-ff`), push, delete the branch (local + remote), and
+    update `PROJECT.md` to "shipped".
 - If the owner says "change this and that": run the fix loop on the branch, re-verify, present again.
+
+## Lifecycle: tasks, agents, failure & recovery
+- **Tasks:** N/A — solo project, no task tracker. Track outstanding items in `PROJECT.md` "Pending
+  fixes", not a task tool.
+- **Agents (optional):** for a large/complex component, before sign-off run a **fresh-session handoff
+  check** (point a clean agent at the repo; see the "Pass it on" pattern) to confirm the work is
+  continuable from the artifacts alone. Skip for small components.
+- **Failure & recovery:**
+  - Verify fails → stay on the branch, run the fix loop, **do not present for sign-off until it passes**.
+  - Build abandoned / wrong approach → delete the branch; `main` is untouched, nothing lost.
+  - A merged change breaks `main` → **revert the merge commit** (`git revert -m 1 <merge>`), then fix
+    on a fresh branch.
 
 ## Templates this phase touches (home: `templates/`, see `templates/README.md`)
 - **Creates** `BUILD-<name>.md` from `templates/build-template.md` → lands at repo root.
