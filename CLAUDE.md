@@ -26,5 +26,14 @@ Brief → Claude builds → owner tests by running → fix loop → repeat per c
 - Always show what changed before merging to `main`.
 - No worktrees yet (only if we run parallel sessions).
 
+## Templates (reuse these for the next component)
+Starting a new component? Don't invent structure — copy from `templates/`:
+- `templates/brief-template.md` → `BRIEF-<name>.md` (owner writes + signs off)
+- `templates/build-template.md` → `BUILD-<name>.md`
+- `templates/project-template.md` → the living `PROJECT.md`
+
+The brief/build templates include a **"How it connects"** section and a **technical-constraints /
+backend** prompt — added because a fresh-session handoff test showed the first brief was missing them.
+
 ## More detail
 `SYSTEMS.md` (tools) · `HANDOFFS.md` (what passes between stages) · `DECISIONS.md` (why these choices).

@@ -42,6 +42,13 @@ live here.
 - Verified 2026-11-12 in a browser: home, listings+filter, single yacht, enquire flow all work.
   Only console message is a harmless favicon 404.
 
+## Template reuse — not yet tested
+`templates/brief-template.md` and `build-template.md` were extracted from the website's brief/build
+and improved with the gaps a fresh-session handoff found ("How it connects", backend constraint).
+They have **not been reused yet** — the real test is writing the **CRM brief** from the template and
+checking it prevents the first handoff's missing-context questions. Do that when the CRM work starts,
+then update the template from any corrections.
+
 ## Known for later (not now)
 - `app.js` builds cards via `innerHTML` with developer-controlled placeholder data (safe today).
   When real, user-entered content arrives, switch to safe DOM methods / sanitize to avoid XSS.
