@@ -15,10 +15,10 @@ First version **built, signed off, and merged to `main`** (2026-11-12). Verified
 - Enquire button carries the yacht name into the contact form; form shows a placeholder confirmation.
 - Images are placeholder navy blocks (no real photos yet).
 
-**Next up:** the **CRM** component (see `BRIEF.md` out-of-scope). It can't start until the owner
-writes and signs off a **CRM brief** (`SIGNOFF.md`: the owner writes the brief, not Claude). The
-brief must settle: what the CRM is and who uses it, what it stores, whether enquiries from the site
-feed into it, and whether the "no backend" rule still holds for a tool that stores records.
+**Next up:** the **CRM** component. Brief is written and signed off: [`BRIEF-CRM.md`](BRIEF-CRM.md)
+(private admin tool, 8 placeholder enquiries, navy/white dashboard, no backend in v1). Next activity:
+a `BUILD-CRM.md` from `templates/build-template.md`, then Claude builds on a branch (GIT-WORKFLOW),
+owner tests, merge.
 
 ## Reference links to wire when the CRM is built (agreed 2026-11-12)
 Following the work through the pipeline, these cross-links let each next reader continue with context:
@@ -51,12 +51,12 @@ live here.
 - Verified 2026-11-12 in a browser: home, listings+filter, single yacht, enquire flow all work.
   Only console message is a harmless favicon 404.
 
-## Template reuse — not yet tested
-`templates/brief-template.md` and `build-template.md` were extracted from the website's brief/build
-and improved with the gaps a fresh-session handoff found ("How it connects", backend constraint).
-They have **not been reused yet** — the real test is writing the **CRM brief** from the template and
-checking it prevents the first handoff's missing-context questions. Do that when the CRM work starts,
-then update the template from any corrections.
+## Template reuse — tested, it worked (2026-11-12)
+`templates/brief-template.md` was reused to write `BRIEF-CRM.md`. The test: did it prevent the
+missing-context questions from the first handoff? **Yes.** The handoff had flagged two gaps — "does
+'no backend' still hold?" and "how do enquiries feed the CRM?" — and the template's **Technical
+constraints** and **How it connects** sections forced both to be answered in the brief up front. No
+template corrections were needed this round.
 
 ## Known for later (not now)
 - `app.js` builds cards via `innerHTML` with developer-controlled placeholder data (safe today).
