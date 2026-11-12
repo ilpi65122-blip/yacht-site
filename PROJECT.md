@@ -8,7 +8,7 @@ A listings site where yachts are published to buy or charter. Visitors browse an
 First version is placeholder-only (no real data, no backend).
 
 ## Current state
-First version built (on branch `feature/first-build`) and verified in a browser:
+First version **built, signed off, and merged to `main`** (2026-11-12). Verified in a browser:
 - Four pages, linked: `index.html` (Home), `listings.html`, `yacht.html?id=N` (single), `contact.html`.
 - 6 placeholder yachts in `data.js`; shared rendering/filtering in `app.js`; styling in `styles.css`.
 - Listings filters work (buy/charter + price bucket); single-yacht pages render by `?id=`.
