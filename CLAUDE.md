@@ -35,5 +35,9 @@ Starting a new component? Don't invent structure — copy from `templates/`:
 The brief/build templates include a **"How it connects"** section and a **technical-constraints /
 backend** prompt — added because a fresh-session handoff test showed the first brief was missing them.
 
+## Skills
+- `.claude/skills/build-component/` — runs the **Build** phase (branch → build to brief → verify →
+  sign-off → merge) the same way every time. Use when a `BRIEF-<name>.md` is signed off.
+
 ## More detail
 `SYSTEMS.md` (tools) · `HANDOFFS.md` (what passes between stages) · `DECISIONS.md` (why these choices).
