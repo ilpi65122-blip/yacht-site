@@ -19,11 +19,11 @@ First version **built, signed off, and merged to `main`** (2026-11-12). Verified
 and [`BUILD-CRM.md`](BUILD-CRM.md). Private admin dashboard in `crm/` — list + detail, status
 (New/Contacted/Closed) + notes, navy/white.
 
-**Site ↔ CRM wired for real** (on branch `feature/site-crm-wiring`, `DECISIONS.md` #6). Added a small
-dependency-free Node backend (`server.js`) + JSON storage (`data/enquiries.json`). The contact form
-POSTs enquiries to the server; the CRM reads/updates them from the server (status/notes now shared,
-not per-browser). **Run with `npm start`, open http://localhost:3000** (no longer double-click).
-Pending owner test + sign-off, then merge.
+**Site ↔ CRM wired for real — signed off and merged to `main`** (2026-11-12, `DECISIONS.md` #6).
+Small dependency-free Node backend (`server.js`) + JSON storage (`data/enquiries.json`). The contact
+form POSTs enquiries to the server; the CRM reads/updates them (status/notes shared, not per-browser).
+**Run with `npm start`, open http://localhost:3000** (no longer double-click). Localhost-bound and
+hardened after a security review; **login is required before any deploy** (see Known risks).
 
 ## Reference links to wire when the CRM is built (agreed 2026-11-12)
 Following the work through the pipeline, these cross-links let each next reader continue with context:
