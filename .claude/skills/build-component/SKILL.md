@@ -37,6 +37,12 @@ updated and the branch pushed — presented to the owner with what was tested.
   branch, and update `PROJECT.md` to "shipped".
 - If the owner says "change this and that": run the fix loop on the branch, re-verify, present again.
 
+## Templates this phase touches (home: `templates/`, see `templates/README.md`)
+- **Creates** `BUILD-<name>.md` from `templates/build-template.md` → lands at repo root.
+- **Updates** the single living `PROJECT.md` (seeded once from `templates/project-template.md`) — edit
+  in place, never make a per-component copy.
+- Does **not** use `brief-template.md` (that's the Write-a-brief phase).
+
 ## Notes
 - Sign-off rules: small internal fixes Claude may finish; whole/customer-facing components need the
   owner's test-and-sign-off (`SIGNOFF.md`).

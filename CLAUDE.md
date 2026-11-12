@@ -27,10 +27,13 @@ Brief → Claude builds → owner tests by running → fix loop → repeat per c
 - No worktrees yet (only if we run parallel sessions).
 
 ## Templates (reuse these for the next component)
-Starting a new component? Don't invent structure — copy from `templates/`:
-- `templates/brief-template.md` → `BRIEF-<name>.md` (owner writes + signs off)
-- `templates/build-template.md` → `BUILD-<name>.md`
-- `templates/project-template.md` → the living `PROJECT.md`
+Maintained home + what each produces and where it lands: **`templates/README.md`**. Summary:
+- `templates/brief-template.md` → **creates** `BRIEF-<name>.md` at repo root (owner writes + signs off)
+- `templates/build-template.md` → **creates** `BUILD-<name>.md` at repo root
+- `templates/project-template.md` → **updates** the single living `PROJECT.md` (never a new copy)
+
+Templates = blank patterns (live in `templates/`). Completed artifacts = real content (repo root /
+component folders). Don't copy templates elsewhere.
 
 The brief/build templates include a **"How it connects"** section and a **technical-constraints /
 backend** prompt — added because a fresh-session handoff test showed the first brief was missing them.
