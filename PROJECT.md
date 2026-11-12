@@ -75,7 +75,9 @@ template corrections were needed this round.
   so it is not reachable from the LAN. **Before deploying or binding to any other host, add a login**
   (e.g. a session cookie, or a `CRM_TOKEN` checked on every `/api/*` and `/crm/*` request). This is
   the main open risk — flagged by an automated security review 2026-11-12.
-- The server does only minimal validation (required fields). No rate-limiting/spam protection yet.
+- Hardened 2026-11-12 (security review): request bodies capped at 64 KB; stored fields length-capped;
+  static server only serves .html/.css/.js and blocks dotfiles, `server.js`, `data/`, and `.md` docs;
+  `../` traversal blocked. Still no rate-limiting/spam protection — add before public exposure.
 - Real yacht data + photos, and deployment/hosting, are future work.
 
 ## How to run

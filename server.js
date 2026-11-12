@@ -24,6 +24,8 @@ const SEED = [
   { id: 8, yacht: "Azure Dream",  name: "Liam O'Connor", email: "liam.oconnor@example.com",   date: "2026-11-11", status: "New",       message: "Does Azure Dream come with crew? Looking at late season.",                 notes: "" },
 ];
 
+const STATUSES = ["New", "Contacted", "Closed"];
+
 function ensureData() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
   if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, JSON.stringify(SEED, null, 2));
@@ -42,26 +44,47 @@ function sendJSON(res, code, obj) {
   res.end(JSON.stringify(obj));
 }
 
+const MAX_BODY = 64 * 1024; // 64 KB — enough for an enquiry, caps memory use.
 function readBody(req) {
   return new Promise((resolve) => {
     let b = "";
-    req.on("data", (c) => (b += c));
+    let tooBig = false;
+    req.on("data", (c) => {
+      if (tooBig) return;
+      b += c;
+      if (b.length > MAX_BODY) { tooBig = true; req.destroy(); resolve(null); }
+    });
     req.on("end", () => {
+      if (tooBig) return;
       try { resolve(JSON.parse(b || "{}")); } catch (e) { resolve({}); }
     });
+    req.on("error", () => resolve(null));
   });
 }
 
+// Only these file types are served statically (JSON is served via the API, not as files).
+const STATIC_TYPES = { ".html": "text/html", ".css": "text/css", ".js": "application/javascript" };
 function serveStatic(req, res) {
   let p = decodeURIComponent(req.url.split("?")[0]);
   if (p === "/") p = "/index.html";
   if (p.endsWith("/")) p += "index.html";
-  const file = path.join(ROOT, p);
-  // keep requests inside the project root
-  if (!file.startsWith(ROOT)) { res.writeHead(403); return res.end("forbidden"); }
+
+  // Block sensitive paths: dotfiles/.git, server source, data dir, config, internal docs.
+  if (/(^|\/)\./.test(p) || p === "/server.js" || p === "/package.json" ||
+      p.startsWith("/data/") || /\.md$/i.test(p)) {
+    res.writeHead(404); return res.end("not found");
+  }
+
+  const file = path.normalize(path.join(ROOT, p));
+  // Keep requests strictly inside the project root (blocks ../ traversal).
+  if (file !== ROOT && !file.startsWith(ROOT + path.sep)) { res.writeHead(403); return res.end("forbidden"); }
+  // Only serve known web asset types.
+  const type = STATIC_TYPES[path.extname(file).toLowerCase()];
+  if (!type) { res.writeHead(404); return res.end("not found"); }
+
   fs.readFile(file, (err, data) => {
     if (err) { res.writeHead(404); return res.end("not found"); }
-    res.writeHead(200, { "Content-Type": MIME[path.extname(file)] || "text/plain" });
+    res.writeHead(200, { "Content-Type": type });
     res.end(data);
   });
 }
@@ -75,15 +98,16 @@ const server = http.createServer(async (req, res) => {
   }
   if (url === "/api/enquiries" && req.method === "POST") {
     const body = await readBody(req);
-    const name = (body.name || "").trim();
-    const email = (body.email || "").trim();
-    const message = (body.message || "").trim();
+    if (!body) return sendJSON(res, 413, { error: "payload too large" });
+    const name = (body.name || "").trim().slice(0, 200);
+    const email = (body.email || "").trim().slice(0, 200);
+    const message = (body.message || "").trim().slice(0, 2000);
     if (!name || !email || !message) return sendJSON(res, 400, { error: "name, email and message are required" });
     const list = readData();
     const id = list.reduce((m, e) => Math.max(m, e.id), 0) + 1;
     const enquiry = {
       id,
-      yacht: (body.yacht || "General enquiry").trim(),
+      yacht: (body.yacht || "General enquiry").trim().slice(0, 100),
       name, email, message,
       date: new Date().toISOString().slice(0, 10),
       status: "New",
@@ -97,11 +121,12 @@ const server = http.createServer(async (req, res) => {
   if (m && (req.method === "POST" || req.method === "PATCH")) {
     const id = Number(m[1]);
     const body = await readBody(req);
+    if (!body) return sendJSON(res, 413, { error: "payload too large" });
     const list = readData();
     const e = list.find((x) => x.id === id);
     if (!e) return sendJSON(res, 404, { error: "not found" });
-    if (typeof body.status === "string") e.status = body.status;
-    if (typeof body.notes === "string") e.notes = body.notes;
+    if (typeof body.status === "string" && STATUSES.includes(body.status)) e.status = body.status;
+    if (typeof body.notes === "string") e.notes = body.notes.slice(0, 2000);
     writeData(list);
     return sendJSON(res, 200, e);
   }
