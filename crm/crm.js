@@ -1,4 +1,6 @@
-// CRM dashboard logic. Uses safe DOM methods (textContent) for enquiry data.
+// CRM dashboard logic. Loads enquiries from the server and saves changes back to it.
+// Uses safe DOM methods (textContent) for enquiry data.
+let enquiries = [];
 let selectedId = null;
 
 function el(tag, props, text) {
@@ -20,7 +22,7 @@ function renderTable() {
   const tbody = document.getElementById("rows");
   tbody.textContent = "";
   const filter = currentFilter();
-  const list = getEnquiries().filter((e) => filter === "all" || e.status === filter);
+  const list = enquiries.filter((e) => filter === "all" || e.status === filter);
 
   document.getElementById("count").textContent =
     list.length + (list.length === 1 ? " enquiry" : " enquiries");
@@ -48,7 +50,7 @@ function selectEnquiry(id) {
 function renderDetail() {
   const panel = document.getElementById("detail");
   panel.textContent = "";
-  const e = getEnquiries().find((x) => x.id === selectedId);
+  const e = enquiries.find((x) => x.id === selectedId);
   if (!e) {
     panel.appendChild(el("p", { className: "empty" }, "Select an enquiry to view it."));
     return;
@@ -90,13 +92,22 @@ function renderDetail() {
   const saveRow = el("div");
   const btn = el("button", { className: "btn" }, "Save");
   const saved = el("span", { className: "saved", id: "saved-msg" }, "Saved");
-  btn.addEventListener("click", () => {
-    saveOverride(e.id, { status: sel.value, notes: ta.value });
-    renderTable();
-    const msg = document.getElementById("saved-msg");
-    if (msg) {
-      msg.style.display = "inline";
-      setTimeout(() => (msg.style.display = "none"), 1500);
+  btn.addEventListener("click", async () => {
+    btn.disabled = true;
+    try {
+      const updated = await saveEnquiry(e.id, { status: sel.value, notes: ta.value });
+      Object.assign(e, updated); // keep in-memory copy in sync
+      renderTable();
+      const msg = document.getElementById("saved-msg");
+      if (msg) {
+        msg.style.display = "inline";
+        setTimeout(() => (msg.style.display = "none"), 1500);
+      }
+    } catch (err) {
+      saved.textContent = "Save failed";
+      saved.style.display = "inline";
+    } finally {
+      btn.disabled = false;
     }
   });
   saveRow.appendChild(btn);
@@ -104,8 +115,15 @@ function renderDetail() {
   panel.appendChild(saveRow);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+async function init() {
   document.getElementById("status-filter").addEventListener("change", renderTable);
+  try {
+    enquiries = await fetchEnquiries();
+  } catch (err) {
+    document.getElementById("count").textContent = "Could not load enquiries — is the server running?";
+  }
   renderTable();
   renderDetail();
-});
+}
+
+document.addEventListener("DOMContentLoaded", init);

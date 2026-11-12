@@ -1,0 +1,5 @@
+# Runtime enquiry data — created by the server from its seed on first run.
+data/enquiries.json
+
+# Node
+node_modules/
