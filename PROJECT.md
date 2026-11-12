@@ -15,10 +15,10 @@ First version **built, signed off, and merged to `main`** (2026-11-12). Verified
 - Enquire button carries the yacht name into the contact form; form shows a placeholder confirmation.
 - Images are placeholder navy blocks (no real photos yet).
 
-**Next up:** the **CRM** component. Brief is written and signed off: [`BRIEF-CRM.md`](BRIEF-CRM.md)
-(private admin tool, 8 placeholder enquiries, navy/white dashboard, no backend in v1). Next activity:
-a `BUILD-CRM.md` from `templates/build-template.md`, then Claude builds on a branch (GIT-WORKFLOW),
-owner tests, merge.
+**CRM:** built on branch `feature/crm-build` from [`BRIEF-CRM.md`](BRIEF-CRM.md) and
+[`BUILD-CRM.md`](BUILD-CRM.md). Private admin dashboard in `crm/` — 8 placeholder enquiries, list +
+detail, status (New/Contacted/Closed) + notes persisted via browser localStorage, navy/white, no
+backend. Pending owner test + sign-off, then merge to `main`.
 
 ## Reference links to wire when the CRM is built (agreed 2026-11-12)
 Following the work through the pipeline, these cross-links let each next reader continue with context:
@@ -48,8 +48,10 @@ live here.
 - [ ] (none yet — awaiting owner's test feedback)
 
 ## Test findings
-- Verified 2026-11-12 in a browser: home, listings+filter, single yacht, enquire flow all work.
+- Site, verified 2026-11-12 in a browser: home, listings+filter, single yacht, enquire flow all work.
   Only console message is a harmless favicon 404.
+- CRM, verified 2026-11-12 against [`BUILD-CRM.md`](BUILD-CRM.md) "Done when": lists 8 enquiries,
+  detail opens, status + notes edit and **persist across reload** (localStorage), navy/white. No errors.
 
 ## Template reuse — tested, it worked (2026-11-12)
 `templates/brief-template.md` was reused to write `BRIEF-CRM.md`. The test: did it prevent the

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enquiries — Azure Yachts CRM</title>
+  <link rel="stylesheet" href="crm.css" />
+</head>
+<body>
+  <header class="admin-header">
+    <span class="logo">Azure Yachts</span>
+    <span class="tag">Admin · CRM</span>
+    <a href="../index.html">View site &rarr;</a>
+  </header>
+
+  <div class="wrap">
+    <div class="title-row">
+      <h1>Enquiries</h1>
+      <span id="count" class="subtitle"></span>
+    </div>
+    <p class="subtitle">Private — manage leads from the yacht site. Changes are saved in this browser.</p>
+
+    <div class="toolbar">
+      <label for="status-filter">Filter by status</label>
+      <select id="status-filter">
+        <option value="all">All</option>
+        <option value="New">New</option>
+        <option value="Contacted">Contacted</option>
+        <option value="Closed">Closed</option>
+      </select>
+    </div>
+
+    <div class="layout">
+      <table>
+        <thead>
+          <tr><th>Yacht</th><th>Name</th><th>Received</th><th>Status</th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+
+      <div class="detail" id="detail"></div>
+    </div>
+  </div>
+
+  <script src="crm-data.js"></script>
+  <script src="crm.js"></script>
+</body>
+</html>
